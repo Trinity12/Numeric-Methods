@@ -1,0 +1,44 @@
+from numpy import *
+from matplotlib import pyplot
+#rectangle method
+def calculate_dx (a, b, n):
+	return (b-a)/float(n)
+
+def rect_rule (f, a, b, n, graph_x, graph_y):
+	total = 0.0
+	dx = calculate_dx(a, b, n)
+	for k in range (0, n):
+        	total = total + f((a + (k*dx)))
+        	graph_x.append(a + (k*dx))
+        	graph_y.append(f(a + (k*dx)))
+	return dx*total
+
+def rect_rule_left (f, a, b, n):
+	total = 0.0
+	dx = calculate_dx(a, b, n)
+	for k in range (0, n):
+        	total = total + f((b - (k*dx)))
+	return dx*total
+
+def f(x):
+    return sqrt(x) * sin((3.14 * x) / 3.0)**2
+
+def steps(f, a, b, graph_x, graph_y):
+	i = a;
+	while i < b:
+		graph_x.append(i)
+		graph_y.append(f(i))
+		i += 0.01
+
+x_r, y_r = [], []
+steps(f,0,3,x_r,y_r)
+pyplot.plot(x_r, y_r, 'g', label = "Integrated function")
+x_r.clear()
+y_r.clear()
+print (rect_rule(f, 0, 3, 100, x_r, y_r))
+pyplot.plot(x_r, y_r, 'r.', label = "Rectangles")
+pyplot.title("Rectange nethod right")
+pyplot.show()
+print (rect_rule_left(f, 0, 3, 1000))
+
+
